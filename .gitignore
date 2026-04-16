@@ -2,10 +2,11 @@
 __pycache__/
 *.pyc
 
-# Data files (important)
+# Data files (important - do NOT upload)
 data.txt
+streak.txt
+report.csv
 
 # System files
 .DS_Store
 Thumbs.db
-streak.txt

@@ -1,3 +1,6 @@
+from ai import generate_recommendations
+from export import export_to_csv, plot_weekly_graph
+from weekly import show_weekly_report
 from rich import print
 from rich.panel import Panel
 from rich.table import Table
@@ -11,7 +14,11 @@ def show_menu():
     print("[1] 📝 Log Coding Session")
     print("[2] 📂 View Logs")
     print("[3] 📊 Show Insights")
-    print("[4] ❌ Exit")
+    print("[4] 📅 Weekly Report")
+    print("[5] 📤 Export to CSV")
+    print("[6] 📈 Show Graph")
+    print("[7] 🧠 AI Coach")
+    print("[8] ❌ Exit")
 
 
 def main():
@@ -42,7 +49,19 @@ def main():
             show_stats()
 
         elif choice == "4":
-            print("[bold green]🚀 Keep improving daily![/bold green]")
+            show_weekly_report()
+
+        elif choice == "5":
+            export_to_csv()
+
+        elif choice == "6":
+            plot_weekly_graph()
+
+        elif choice == "7":
+            generate_recommendations()
+
+        elif choice == "8":
+            print("🚀 Keep improving daily!")
             break
 
         else:
