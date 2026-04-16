@@ -79,4 +79,14 @@ It is a system designed to:
 
 ---
 
+## 👤 Author & License
+
+**Author:** Sumit Dhara
+
+This project is open-source under the  **MIT License.**
+
+#### © 2026 Sumit Dhara. All rights reserved.
+
+---
+
 ## ⭐ If you found this useful, consider giving a star!
