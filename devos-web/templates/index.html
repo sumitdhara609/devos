@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1 class="title">DevOS A-Core Dashboard</h1>
+
+<!-- Stats Cards -->
+<div class="stats-grid">
+
+    <div class="stat-card">
+        <h2>{{ total_sessions }}</h2>
+        <p>Total Sessions</p>
+    </div>
+
+    <div class="stat-card">
+        <h2>{{ total_time }}</h2>
+        <p>Total Minutes</p>
+    </div>
+
+    <div class="stat-card">
+        <h2>{{ avg_time }}</h2>
+        <p>Avg Minutes</p>
+    </div>
+
+    <div class="stat-card special">
+        <h2>{{ a_score }}%</h2>
+        <p>A-Score</p>
+    </div>
+
+</div>
+
+<!-- Add Session Form -->
+<div class="card">
+
+    <form action="/add" method="POST">
+
+        <input 
+            type="text" 
+            name="problem" 
+            placeholder="Problem Name" 
+            required
+        >
+
+        <select name="difficulty" required>
+            <option value="Easy">Easy</option>
+            <option value="Medium">Medium</option>
+            <option value="Hard">Hard</option>
+        </select>
+
+        <input 
+            type="number" 
+            name="time_taken" 
+            placeholder="Minutes Taken" 
+            min="1"
+            required
+        >
+
+        <button type="submit">Add Session</button>
+
+    </form>
+
+</div>
+
+<!-- Analytics Chart -->
+<h2 class="subtitle">A-Analytics Chart</h2>
+
+<div class="chart-box">
+    <img src="/chart" alt="Difficulty Analytics Chart">
+</div>
+
+<!-- Recent Sessions -->
+<h2 class="subtitle">Recent Sessions</h2>
+
+<div class="logs">
+
+{% if sessions %}
+
+    {% for s in sessions %}
+    <div class="log-card">
+        <h3>{{ s.problem }}</h3>
+        <p>{{ s.difficulty }} • {{ s.time_taken }} mins</p>
+    </div>
+    {% endfor %}
+
+{% else %}
+
+    <div class="log-card">
+        <h3>No Sessions Yet</h3>
+        <p>Start adding coding sessions.</p>
+    </div>
+
+{% endif %}
+
+</div>
+
+{% endblock %}
