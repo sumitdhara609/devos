@@ -254,5 +254,29 @@ def chart():
 with app.app_context():
     db.create_all()
 
+@app.route("/coach", methods=["POST"])
+@login_required
+def coach():
+    message = request.form.get("message", "").lower()
+
+    reply = "Stay consistent and keep improving."
+
+    if "slow" in message:
+        reply = "Use timed sessions daily. Speed improves with repetition."
+
+    elif "hard" in message:
+        reply = "Break hard problems into smaller parts and solve step-by-step."
+
+    elif "motivate" in message:
+        reply = "Discipline beats motivation. Show up daily."
+
+    elif "stuck" in message:
+        reply = "Review examples, simplify the problem, then retry."
+
+    elif "interview" in message:
+        reply = "Focus on arrays, strings, hashing, trees, and communication."
+
+    return render_template("coach.html", reply=reply)
+
 if __name__ == "__main__":
     app.run(debug=True)

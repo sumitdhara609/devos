@@ -4,7 +4,7 @@
 
 <section class="hero">
 
-    <p class="micro-label">DEVOS // A-ASCEND INTELLIGENCE</p>
+    <p class="micro-label">DEVOS // NEXUS INTELLIGENCE</p>
 
     <h1 class="hero-title">
         Build Discipline.<br>
@@ -18,7 +18,7 @@
 
 </section>
 
-<h1 class="title">DevOS A-Core Dashboard</h1>
+<h1 class="title">DevOS Nexus Dashboard</h1>
 
 <!-- Stats Cards -->
 <div class="stats-grid">
@@ -46,23 +46,37 @@
             </div>
         </div>
 
-        <p>A-Score</p>
+        <p>Performance Index</p>
 
     </div>
 
 </div>
-<h2 class="subtitle">Advisor Intelligence</h2>
+
+<!-- Smart Insights -->
+<h2 class="subtitle">Smart Insights</h2>
 
 <div class="logs">
 
-{% for tip in advice %}
-<div class="log-card">
-    <h3>Insight</h3>
-    <p>{{ tip }}</p>
-</div>
-{% endfor %}
+{% if advice %}
+
+    {% for tip in advice %}
+    <div class="log-card">
+        <h3>Insight</h3>
+        <p>{{ tip }}</p>
+    </div>
+    {% endfor %}
+
+{% else %}
+
+    <div class="log-card">
+        <h3>No Insights Yet</h3>
+        <p>Start logging sessions to unlock insights.</p>
+    </div>
+
+{% endif %}
 
 </div>
+
 <!-- Add Session Form -->
 <div class="card">
 
@@ -102,6 +116,26 @@
     <img src="/chart" alt="Difficulty Analytics Chart">
 </div>
 
+<!-- AI Coach -->
+<h2 class="subtitle">AI Coach</h2>
+
+<div class="card">
+
+    <form action="/coach" method="POST">
+
+        <input
+            type="text"
+            name="message"
+            placeholder="Ask about speed, hard problems, motivation..."
+            required
+        >
+
+        <button type="submit">Ask Coach</button>
+
+    </form>
+
+</div>
+
 <!-- Recent Sessions -->
 <h2 class="subtitle">Recent Sessions</h2>
 
@@ -110,10 +144,10 @@
 {% if sessions %}
 
     {% for s in sessions %}
-        <div class="log-card">
-            <h3>{{ s.problem }}</h3>
-            <p>{{ s.difficulty }} • {{ s.time_taken }} mins</p>
-        </div>
+    <div class="log-card">
+        <h3>{{ s.problem }}</h3>
+        <p>{{ s.difficulty }} • {{ s.time_taken }} mins</p>
+    </div>
     {% endfor %}
 
 {% else %}
