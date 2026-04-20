@@ -1,12 +1,16 @@
+![Python](https://img.shields.io/badge/Python-3.12-blue)
+![Flask](https://img.shields.io/badge/Framework-Flask-black)
+![Live](https://img.shields.io/badge/Status-Live-success)
+
 # ⚡ DevOS Nexus — Developer Operating System
 
 > Transforming coding practice into a measurable growth engine.
 
-🌐 **Live Demo:** https://sumitbyte-devos-nexus.onrender.com
+🌐 **Live Demo:** [Open DevOS Nexus](https://sumitbyte-devos-nexus.onrender.com)
 
 DevOS Nexus is a premium full-stack productivity platform built to help developers **track coding sessions, analyze performance, measure consistency, and improve intelligently through data**.
 
-What started as a CLI tool evolved into a live web platform after **4 months of continuous building, redesigning, debugging, and upgrading**.
+What started as a CLI tool evolved into a live web platform after **6 months of continuous building, redesigning, debugging, and upgrading.**
 
 > 🚀 Built independently while still in high school with a focus on discipline, systems thinking, and meaningful developer productivity.
 
@@ -32,26 +36,115 @@ It transforms coding practice into a system of:
 
 ---
 
-# 🛤️ 4-Month Evolution Journey
+# 🛤️ 6-Month Evolution Journey
 
-## Month 1 — Foundation
+## Month 1 — First Principle Thinking
 
-Started as a local CLI productivity tracker.
+The journey began with a simple question:
 
-## Month 2 — Analytics Layer
+**Why do students track marks, but not effort?**
 
-Added insights, reports, charts, and performance tracking.
+This month focused on defining the real problem:
 
-## Month 3 — Product Thinking
+- Developers practice without data
+- Progress feels random
+- Consistency is hard to measure
+- No personal feedback loop exists
 
-Redesigned UX, branding, dashboard structure, premium identity.
+Initial CLI concept was born.
 
-## Month 4 — Full Launch
+---
 
-Converted into a live cloud-hosted web application with authentication and real users.
+## Month 2 — CLI Foundation Build
 
-> DevOS was not built in a day.  
-> It was shaped through persistence.
+The first version of DevOS was built as a command-line productivity engine.
+
+Core systems added:
+
+- Session logging
+- Problem difficulty tracking
+- Time tracking
+- Local data storage
+- Clean terminal experience
+
+This phase proved the concept worked.
+
+---
+
+## Month 3 — Analytics Engine
+
+DevOS moved beyond tracking into intelligence.
+
+New additions:
+
+- Weekly reports
+- Average solve time
+- Productivity summaries
+- Difficulty distribution
+- Growth insights
+- Performance trends
+
+The project became more than a tracker.
+
+It became an analytics system.
+
+---
+
+## Month 4 — Product Identity & Experience
+
+Focus shifted from code to product quality.
+
+Major upgrades:
+
+- Better branding
+- Naming evolution into **DevOS Nexus**
+- Premium positioning
+- UI planning
+- Web dashboard architecture
+- Better user journey thinking
+
+This month shaped the product vision.
+
+---
+
+## Month 5 — Web Platform Development
+
+CLI evolved into a live Flask web application.
+
+Major systems built:
+
+- User registration
+- Secure login flow
+- Personal dashboards
+- Session database
+- Charts & analytics
+- AI Coach
+- Responsive premium interface
+
+This was the transformation stage.
+
+---
+
+## Month 6 — Launch Month
+
+The final month focused on shipping publicly.
+
+Major milestones:
+
+- Debugging deployment issues
+- Database fixes
+- Render hosting setup
+- README redesign
+- Screenshots & branding assets
+- GitHub publishing
+- Public live demo release
+
+## 🚀 GitHub Launch Completed In Month 6
+
+After six months of persistence, DevOS Nexus officially went live.
+
+> DevOS was not built quickly.  
+> It was built patiently.
 
 ---
 
@@ -69,7 +162,7 @@ Live full-stack analytics dashboard with premium UI.
 
 # ✨ Core Features
 
-# 📊 Performance Intelligence
+## 📊 Performance Intelligence
 
 - Total coding sessions tracked
 - Total time invested
@@ -77,7 +170,7 @@ Live full-stack analytics dashboard with premium UI.
 - Performance Index score
 - Difficulty breakdown chart
 
-# 📝 Smart Session Tracking
+## 📝 Smart Session Tracking
 
 Track every coding session with:
 
@@ -86,20 +179,20 @@ Track every coding session with:
 - Minutes taken
 - Timestamp history
 
-# 📈 Analytics Dashboard
+## 📈 Analytics Dashboard
 
 - Easy / Medium / Hard distribution
 - Visual charts
 - Real progress measurement
 - Session history feed
 
-# 🔐 User System
+## 🔐 User System
 
 - Register / Login
 - Private dashboards
 - Individual progress tracking
 
-# 🤖 AI Coach
+## 🤖 AI Coach
 
 Interactive in-product coaching assistant for:
 
@@ -107,6 +200,25 @@ Interactive in-product coaching assistant for:
 - Hard problem mindset
 - Motivation
 - Interview direction
+
+---
+
+# 📸 Product Preview
+
+## Register Experience
+![Register](devos-web/assets/register.png)
+
+## Login Experience
+![Login](devos-web/assets/login.png)
+
+## Dashboard
+![Dashboard](devos-web/assets/dashboard.png)
+
+## Smart Insights & Analytics
+![Analytics](devos-web/assets/analytics.png)
+
+## AI Coach & Recent Sessions
+![Coach](devos-web/assets/coach.png)
 
 ---
 
@@ -155,17 +267,20 @@ It helps answer:
 ## Clone Repository
 
 ```bash
-git clone https://github.com/sumitdhara609/devos.git
-cd devos
+git clone https://github.com/sumitdhara609/devos-nexus.git
+cd devos-nexus
 ```
 ## Install Dependencies
 
 ```bash
+cd devos-web
 pip install -r requirements.txt
 ```
 ## Run Web Version
 
 ```bash
+cd devos-web
+pip install -r requirements.txt
 python app.py
 ```
 ## Open Browser:
@@ -182,18 +297,22 @@ python main.py
 
 ## 📂 Project Structure
 ```bash
-devos/
-│── app.py
+devos-nexus/
+│── README.md
 │── main.py
-│── requirements.txt
-│── templates/
-│── static/
-│── instance/
+│── ai.py
 │── analysis.py
 │── storage.py
 │── weekly.py
 │── export.py
-│── ai.py
+│
+└── devos-web/
+    │── app.py
+    │── requirements.txt
+    │── Procfile
+    │── assets/
+    │── templates/
+    │── static/
 ```
 ---
 
@@ -234,8 +353,8 @@ So I built one.
 
 ## 👤 Author
 
-**Author:** Sumit Dhara
- Student Developer focused on building systems that improve growth, learning, and productivity.
+**Sumit Dhara**  
+Student Developer focused on building systems that improve growth, learning, and productivity.
 
 ---
 
@@ -247,5 +366,5 @@ So I built one.
 ---
 
 ## ⭐ Support 
-- DevOS Nexus took 4 months of persistence to bring live.
+- DevOS Nexus took 6 months of persistence to launch publicly.
 - If you appreciate builders who keep improving until ideas become real products, consider giving this repository a **star.**
