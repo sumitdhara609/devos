@@ -9,7 +9,7 @@ from flask_login import (
     current_user
 )
 from werkzeug.security import generate_password_hash, check_password_hash
-from datetime import datetime
+from datetime import datetime, timedelta
 import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
@@ -41,7 +41,6 @@ login_manager.login_view = "login"
 # =========================
 # Models
 # =========================
-
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(100), unique=True, nullable=False)
@@ -63,7 +62,6 @@ class Session(db.Model):
 # =========================
 # User Loader
 # =========================
-
 @login_manager.user_loader
 def load_user(user_id):
     return db.session.get(User, int(user_id))
@@ -72,7 +70,6 @@ def load_user(user_id):
 # =========================
 # Auth Routes
 # =========================
-
 @app.route("/register", methods=["GET", "POST"])
 def register():
     if request.method == "POST":
@@ -104,6 +101,9 @@ def register():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
+    if current_user.is_authenticated:
+        return redirect(url_for("home"))
+
     if request.method == "POST":
         username = request.form.get("username", "").strip()
         password = request.form.get("password", "").strip()
@@ -127,7 +127,6 @@ def logout():
 # =========================
 # Main Dashboard
 # =========================
-
 @app.route("/")
 @login_required
 def home():
@@ -135,9 +134,9 @@ def home():
         user_id=current_user.id
     ).order_by(Session.created_at.desc()).all()
 
+    # Core Stats
     total_sessions = len(sessions)
-    total_time = sum(session.time_taken for session in sessions)
-
+    total_time = sum(s.time_taken for s in sessions)
     avg_time = round(total_time / total_sessions, 1) if total_sessions else 0
 
     easy = sum(1 for s in sessions if s.difficulty == "Easy")
@@ -146,7 +145,76 @@ def home():
 
     a_score = min(total_sessions * 5, 100)
 
+    # =========================
+    # Streak System
+    # =========================
+    unique_dates = sorted(
+        {s.created_at.date() for s in sessions},
+        reverse=True
+    )
+
+    current_streak = 0
+    best_streak = 0
+
+    if unique_dates:
+        today = datetime.utcnow().date()
+
+        if unique_dates[0] == today:
+            check_day = today
+        elif unique_dates[0] == today - timedelta(days=1):
+            check_day = today - timedelta(days=1)
+        else:
+            check_day = None
+
+        if check_day:
+            for day in unique_dates:
+                if day == check_day:
+                    current_streak += 1
+                    check_day -= timedelta(days=1)
+                else:
+                    break
+
+        temp = 1
+
+        for i in range(1, len(unique_dates)):
+            if unique_dates[i - 1] - unique_dates[i] == timedelta(days=1):
+                temp += 1
+            else:
+                temp = 1
+
+            best_streak = max(best_streak, temp)
+
+        if best_streak == 0:
+            best_streak = 1
+
+    # =========================
+    # 30 Day Heatmap
+    # =========================
+    activity = {}
+
+    for s in sessions:
+        day = s.created_at.date().strftime("%Y-%m-%d")
+
+        if day in activity:
+            activity[day] += 1
+        else:
+            activity[day] = 1
+
+    today = datetime.utcnow().date()
+    heatmap_days = []
+
+    for i in range(29, -1, -1):
+        d = today - timedelta(days=i)
+        key = d.strftime("%Y-%m-%d")
+
+        heatmap_days.append({
+            "date": key,
+            "count": activity.get(key, 0)
+        })
+
+    # =========================
     # Smart Insights
+    # =========================
     advice = []
 
     if total_sessions == 0:
@@ -167,6 +235,12 @@ def home():
     if a_score >= 80:
         advice.append("Elite performance zone reached.")
 
+    if current_streak >= 3:
+        advice.append("Daily streak active. Momentum is compounding.")
+
+    if best_streak >= 7:
+        advice.append("7+ day streak achieved. Elite consistency unlocked.")
+
     return render_template(
         "index.html",
         sessions=sessions,
@@ -177,6 +251,9 @@ def home():
         medium=medium,
         hard=hard,
         a_score=a_score,
+        current_streak=current_streak,
+        best_streak=best_streak,
+        heatmap_days=heatmap_days,
         advice=advice,
         owner_name="Sumit Dhara"
     )
@@ -185,7 +262,6 @@ def home():
 # =========================
 # Add Session
 # =========================
-
 @app.route("/add", methods=["POST"])
 @login_required
 def add():
@@ -212,7 +288,6 @@ def add():
 # =========================
 # Chart Route
 # =========================
-
 @app.route("/chart")
 @login_required
 def chart():
@@ -230,7 +305,6 @@ def chart():
     plt.style.use("dark_background")
 
     fig, ax = plt.subplots(figsize=(7, 5))
-
     bars = ax.bar(labels, values, color="#d4af37")
 
     ax.set_title("Difficulty Breakdown", fontsize=16, pad=18)
@@ -242,6 +316,7 @@ def chart():
 
     for bar in bars:
         height = bar.get_height()
+
         ax.text(
             bar.get_x() + bar.get_width() / 2,
             height + 0.1,
@@ -263,7 +338,6 @@ def chart():
 # =========================
 # AI Coach
 # =========================
-
 @app.route("/coach", methods=["POST"])
 @login_required
 def coach():
@@ -292,7 +366,6 @@ def coach():
 # =========================
 # Run App
 # =========================
-
 with app.app_context():
     db.create_all()
 

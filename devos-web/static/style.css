@@ -308,6 +308,85 @@ color:#d4af37;
 }
 
 /* =========================
+Streak Card
+========================= */
+.streak-card{
+position:relative;
+overflow:hidden;
+}
+
+.streak-card::before{
+content:"";
+position:absolute;
+top:-40%;
+left:-20%;
+width:160%;
+height:160%;
+background:radial-gradient(rgba(212,175,55,0.12), transparent 60%);
+animation:pulseGlow 2.5s infinite;
+pointer-events:none;
+}
+
+.badge{
+display:inline-block;
+margin-top:12px;
+padding:6px 12px;
+border-radius:30px;
+font-size:12px;
+font-weight:800;
+letter-spacing:1px;
+position:relative;
+z-index:2;
+}
+
+.gold{
+background:#d4af37;
+color:#000;
+}
+
+.silver{
+background:#d9d9d9;
+color:#111;
+}
+
+.bronze{
+background:#8b5a2b;
+color:#fff;
+}
+
+/* =========================
+Heatmap
+========================= */
+.heatmap-grid{
+display:grid;
+grid-template-columns:repeat(10,1fr);
+gap:10px;
+margin-top:15px;
+}
+
+.heat-box{
+height:34px;
+border-radius:8px;
+}
+
+.zero{
+background:#111;
+}
+
+.low{
+background:#6b5b16;
+}
+
+.mid{
+background:#b8961c;
+}
+
+.high{
+background:#d4af37;
+box-shadow:0 0 12px rgba(212,175,55,0.25);
+}
+
+/* =========================
 Footer
 ========================= */
 .footer{
@@ -351,6 +430,10 @@ color:#555;
 background:#ffffff;
 }
 
+.light-mode .zero{
+background:#e8e8e8;
+}
+
 /* =========================
 Animation
 ========================= */
@@ -363,6 +446,12 @@ to{
 opacity:1;
 transform:translateY(0);
 }
+}
+
+@keyframes pulseGlow{
+0%{transform:scale(0.9);opacity:0.5;}
+50%{transform:scale(1.1);opacity:1;}
+100%{transform:scale(0.9);opacity:0.5;}
 }
 
 /* =========================
@@ -385,6 +474,15 @@ font-size:34px;
 .navbar{
 flex-direction:column;
 align-items:flex-start;
+}
+
+.heatmap-grid{
+grid-template-columns:repeat(5,1fr);
+gap:8px;
+}
+
+.heat-box{
+height:28px;
 }
 
 }

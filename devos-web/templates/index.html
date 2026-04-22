@@ -38,6 +38,27 @@
         <p>Avg Minutes</p>
     </div>
 
+    <!-- Current Streak Premium Card -->
+    <div class="stat-card streak-card">
+        <h2>🔥 {{ current_streak }}</h2>
+        <p>Current Streak</p>
+
+        {% if current_streak >= 7 %}
+            <span class="badge gold">Elite</span>
+        {% elif current_streak >= 3 %}
+            <span class="badge silver">Hot</span>
+        {% else %}
+            <span class="badge bronze">Rising</span>
+        {% endif %}
+    </div>
+
+    <!-- Best Streak -->
+    <div class="stat-card">
+        <h2>🏆 {{ best_streak }}</h2>
+        <p>Best Streak</p>
+    </div>
+
+    <!-- Performance Score -->
     <div class="stat-card special score-card">
 
         <div class="score-ring">
@@ -74,6 +95,24 @@
     </div>
 
 {% endif %}
+
+</div>
+
+<h2 class="subtitle">30 Day Consistency Map</h2>
+
+<div class="card heatmap-grid">
+
+{% for day in heatmap_days %}
+<div class="
+heat-box
+{% if day.count == 0 %}zero
+{% elif day.count == 1 %}low
+{% elif day.count <= 3 %}mid
+{% else %}high
+{% endif %}
+" title="{{ day.date }} : {{ day.count }} sessions">
+</div>
+{% endfor %}
 
 </div>
 
