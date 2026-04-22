@@ -8,6 +8,7 @@ from flask_login import (
     login_required,
     current_user
 )
+from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
 import matplotlib
 matplotlib.use("Agg")
@@ -44,7 +45,7 @@ login_manager.login_view = "login"
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(100), unique=True, nullable=False)
-    password = db.Column(db.String(100), nullable=False)
+    password = db.Column(db.String(255), nullable=False)
 
 
 class Session(db.Model):
@@ -65,7 +66,7 @@ class Session(db.Model):
 
 @login_manager.user_loader
 def load_user(user_id):
-    return User.query.get(int(user_id))
+    return db.session.get(User, int(user_id))
 
 
 # =========================
@@ -86,7 +87,13 @@ def register():
         if existing_user:
             return redirect(url_for("login"))
 
-        new_user = User(username=username, password=password)
+        hashed_password = generate_password_hash(password)
+
+        new_user = User(
+            username=username,
+            password=hashed_password
+        )
+
         db.session.add(new_user)
         db.session.commit()
 
@@ -101,12 +108,9 @@ def login():
         username = request.form.get("username", "").strip()
         password = request.form.get("password", "").strip()
 
-        user = User.query.filter_by(
-            username=username,
-            password=password
-        ).first()
+        user = User.query.filter_by(username=username).first()
 
-        if user:
+        if user and check_password_hash(user.password, password):
             login_user(user)
             return redirect(url_for("home"))
 
@@ -121,7 +125,7 @@ def logout():
 
 
 # =========================
-# Main Routes
+# Main Dashboard
 # =========================
 
 @app.route("/")
@@ -136,11 +140,10 @@ def home():
 
     avg_time = round(total_time / total_sessions, 1) if total_sessions else 0
 
-    easy = sum(1 for session in sessions if session.difficulty == "Easy")
-    medium = sum(1 for session in sessions if session.difficulty == "Medium")
-    hard = sum(1 for session in sessions if session.difficulty == "Hard")
+    easy = sum(1 for s in sessions if s.difficulty == "Easy")
+    medium = sum(1 for s in sessions if s.difficulty == "Medium")
+    hard = sum(1 for s in sessions if s.difficulty == "Hard")
 
-    # Performance Score
     a_score = min(total_sessions * 5, 100)
 
     # Smart Insights
@@ -179,6 +182,10 @@ def home():
     )
 
 
+# =========================
+# Add Session
+# =========================
+
 @app.route("/add", methods=["POST"])
 @login_required
 def add():
@@ -202,10 +209,16 @@ def add():
     return redirect(url_for("home"))
 
 
+# =========================
+# Chart Route
+# =========================
+
 @app.route("/chart")
 @login_required
 def chart():
-    sessions = Session.query.filter_by(user_id=current_user.id).all()
+    sessions = Session.query.filter_by(
+        user_id=current_user.id
+    ).all()
 
     easy = sum(1 for s in sessions if s.difficulty == "Easy")
     medium = sum(1 for s in sessions if s.difficulty == "Medium")
@@ -248,11 +261,8 @@ def chart():
 
 
 # =========================
-# Run App
+# AI Coach
 # =========================
-
-with app.app_context():
-    db.create_all()
 
 @app.route("/coach", methods=["POST"])
 @login_required
@@ -277,6 +287,14 @@ def coach():
         reply = "Focus on arrays, strings, hashing, trees, and communication."
 
     return render_template("coach.html", reply=reply)
+
+
+# =========================
+# Run App
+# =========================
+
+with app.app_context():
+    db.create_all()
 
 if __name__ == "__main__":
     app.run(debug=True)
