@@ -38,7 +38,7 @@
         <p>Avg Minutes</p>
     </div>
 
-    <!-- Current Streak Premium Card -->
+    <!-- Current Streak -->
     <div class="stat-card streak-card">
         <h2>🔥 {{ current_streak }}</h2>
         <p>Current Streak</p>
@@ -73,6 +73,25 @@
 
 </div>
 
+<!-- 30 Day Heatmap -->
+<h2 class="subtitle">30 Day Consistency Map</h2>
+
+<div class="card heatmap-grid">
+
+{% for day in heatmap_days %}
+<div class="
+heat-box
+{% if day.count == 0 %}zero
+{% elif day.count == 1 %}low
+{% elif day.count <= 3 %}mid
+{% else %}high
+{% endif %}
+" title="{{ day.date }} : {{ day.count }} sessions">
+</div>
+{% endfor %}
+
+</div>
+
 <!-- Smart Insights -->
 <h2 class="subtitle">Smart Insights</h2>
 
@@ -98,25 +117,16 @@
 
 </div>
 
-<h2 class="subtitle">30 Day Consistency Map</h2>
+<!-- Performance Breakdown -->
+<h2 class="subtitle">Performance Breakdown</h2>
 
-<div class="card heatmap-grid">
-
-{% for day in heatmap_days %}
-<div class="
-heat-box
-{% if day.count == 0 %}zero
-{% elif day.count == 1 %}low
-{% elif day.count <= 3 %}mid
-{% else %}high
-{% endif %}
-" title="{{ day.date }} : {{ day.count }} sessions">
-</div>
-{% endfor %}
-
+<div class="card">
+    <canvas id="performanceChart"></canvas>
 </div>
 
-<!-- Add Session Form -->
+<!-- Add Session -->
+<h2 class="subtitle">Add Session</h2>
+
 <div class="card">
 
     <form action="/add" method="POST">
@@ -146,13 +156,6 @@ heat-box
 
     </form>
 
-</div>
-
-<!-- Analytics Chart -->
-<h2 class="subtitle">Performance Breakdown</h2>
-
-<div class="card">
-    <canvas id="performanceChart"></canvas>
 </div>
 
 <!-- AI Coach -->
